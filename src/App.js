@@ -5,6 +5,7 @@ import Statistics from "./components/Statistics";
 import Section from "./components/Section";
 import Notification from "./components/Notification";
 
+const types = { GOOD: "good", NEUTRAL: "neutral", BAD: "bad" };
 const options = ["good", "neutral", "bad"];
 
 const App = () => {
@@ -14,20 +15,25 @@ const App = () => {
 
   const onLeaveFeedback = (e) => {
     const data = e.target.dataset.feedback;
-    if (data === "good") {
-      setGood((state) => state + 1);
-    }
-    if (data === "neutral") {
-      setNeutral((state) => state + 1);
-    }
-    if (data === "bad") {
-      setBad((state) => state + 1);
+    switch (data) {
+      case types.GOOD:
+        setGood((prevState) => prevState + 1);
+        break;
+
+      case types.NEUTRAL:
+        setNeutral((prevState) => prevState + 1);
+        break;
+
+      case types.BAD:
+        setBad((prevState) => prevState + 1);
+        break;
+
+      default:
+        throw new Error();
     }
   };
 
-  const countTotalFeedback = (good, neutral, bad) => {
-    return good + neutral + bad;
-  };
+  const countTotalFeedback = (good, neutral, bad) => good + neutral + bad;
 
   const countPositiveFeedbackPercentage = (good, total) => {
     const result = total !== 0 ? (good * 100) / total : 0;
